@@ -352,10 +352,7 @@ label, #nav{
     position: static;
     display:  inline;
 }
-t{
-    position: static;
-    display: inline;
-}
+
 @media(max-width: 992px){
     /* body{
         background-color: lightblue;
@@ -487,6 +484,58 @@ t{
 }
 
 
-.BMI{
-    text-align: center;
+.BMI {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
+
+.BMI div {
+  margin: 10px;
+}
+
+.BMI label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.BMI input, .BMI select {
+  padding: 5px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.BMI button {
+  margin-top: 40px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 14px;
+  height: 40px;
+}
+
+#bmicontainer {
+    display: flex;
+  }
+  #left-side {
+    flex-basis: 50%;
+    padding: 1em;
+    text-align: center;
+  }
+  #right-side {
+    flex-basis: 50%;
+    padding: 1em;
+  }
+
+  
+  .bmiimg{
+    width: 400px;
+    box-shadow: 10px 5px 5px black;
+  }
+
+  .bmiInput{
+    margin-right: 100px;
+  }

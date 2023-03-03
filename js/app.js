@@ -19,9 +19,9 @@ function calculateBMI() {
     // calculate BMR
     let bmr;
     if (gender === "male") {
-      bmr = 88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age);
+      bmr = 66 + (13.7 * weight) + (5 * height) - (6.8 * age)
     } else {
-      bmr = 447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age);
+      bmr = 655 + (9.6 * weight) + (1.8 * height) - (4.7 * age)
     }
     
     // calculate TDEE
@@ -43,45 +43,48 @@ function calculateBMI() {
         tdee = bmr * 1.9;
         break;
     }
-  // make an AJAX request to a recipe API
-  // const xhr = new XMLHttpRequest();
-  // const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&minCalories=${tdee}&maxCalories=${tdee+500}&sort=random`;
-  // xhr.open("GET", url, true);
-  // xhr.onreadystatechange = function() {
-  //   if (xhr.readyState === 4 && xhr.status === 200) {
-  //     const data = JSON.parse(xhr.responseText);
-  //     const recipe = data.results[0];
-  //     // display the recipe information
-  //     const recipeDiv = document.getElementById("recipe");
-  //     recipeDiv.innerHTML = `
-  //       <h2>Recommended Recipe:</h2>
-  //       <p>${recipe.title}</p>
-  //       <img src="${recipe.image}" alt="${recipe.title}" />
-  //       <p><a href="${recipe.sourceUrl}" target="_blank">View Recipe</a></p>
-  //     `;
-  //   }
-  // };
-  // xhr.send();
-
-    // display the result
+  // display the result
   const resultDiv = document.getElementById("result");
   resultDiv.innerHTML = `
     <p>Your BMI is ${bmi.toFixed(2)}</p>
     <p>Your BMR is ${bmr.toFixed(2)} calories per day.</p>
     <p>Your TDEE is ${tdee.toFixed(2)} calories per day.</p>
   `;
+  // make an AJAX request to a recipe API
+  // Breakfast
+  let breakfast_per = Math.random() * (0.3 - 0.2) + 0.2
+  let breakfast_tdee = breakfast_per * tdee;
+  const xhr = new XMLHttpRequest();
+  const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&sort=random`;
+  xhr.open("GET", url, true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      const data = JSON.parse(xhr.responseText);
+      const recipe = data.results[0];
+      const recipeImg = document.getElementById("recipeImg");
+      const recipeTitle = document.getElementById("recipeTitle");
+      const recipeDetail = document.getElementById("recipeDetail");
+
+      recipeTitle.innerHTML = `${recipe.title}`;
+      recipeImg.src = recipe.image;
+      recipeDetail.innerHTML = `${recipe.nutrition.nutrients[0].name}: ${recipe.nutrition.nutrients[0].amount} ${recipe.nutrition.nutrients[0].unit}`;
+      // display the recipe information
+      const recipeDiv = document.getElementById("recipe");
+
+  
+      
+      recipeDiv.innerHTML = `
+        <h2>Recommended Recipe:</h2>
+        <p>${recipe.title}</p>
+        <img src="${recipe.image}" alt="${recipe.title}" />
+        <p>${calories} ${calUnit}</p>
+      `;
+    } 
+  };
+  xhr.send();
 }  
 
 // attach event listener to the button
 const calculateButton = document.getElementById("calculate");
 calculateButton.addEventListener("click", calculateBMI);
 
-
-  
-//   // display the BMI, BMR, and TDEE
-//   const resultDiv = document.getElementById("result");
-//   resultDiv.innerHTML = `
-//     <p>Your BMI is ${bmi.toFixed(2)}</p>
-//     <p>Your BMR is ${bmr.toFixed(2)} calories per day.</p>
-//     <p>Your TDEE is ${tdee.toFixed(2)} calories per day.</p>
-//   `;

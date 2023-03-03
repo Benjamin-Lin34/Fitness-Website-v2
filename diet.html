@@ -38,48 +38,68 @@
     </div>
 
     <main>
-      <div class="BMI">
-        <div>
-          <label for="weight" class="bmiLabel">Weight (kg):</label>
-          <input type="number" id="weight" class=".bmiInput" />
+      <div id="bmicontainer">
+        <div id="left-side">
+          <p id="recipeTitle"></p>
+          <div>
+            <img
+              src="./images/bmidefault.jpg"
+              class="bmiimg"
+              id="recipeImg"
+              alt="Your Image"
+            />
+          </div>
+          <p id="recipeDetail"></p>
         </div>
-        <div>
-          <label for="height" class="bmiLabel">Height (cm):</label>
-          <input type="number" id="height" class=".bmiInput"/>
-        </div>
-        <div>
-          <label for="age" class="bmiLabel">Age:</label>
-          <input type="number" id="age" class=".bmiInput"/>
-        </div>
-        <div>
-          <label for="gender" class="bmiLabel">Gender:</label>
-          <select id="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </div>
+        <div id="right-side">
+          <div class="BMI">
+            <div>
+              <label for="weight" class="bmiLabel">Weight (kg):</label>
+              <input type="number" id="weight" class="bmiInput" />
+            </div>
+            <div>
+              <label for="height" class="bmiLabel">Height (cm):</label>
+              <input type="number" id="height" class="bmiInput" />
+            </div>
+            <div>
+              <label for="age" class="bmiLabel">Age:</label>
+              <input type="number" id="age" class=".bmiInput" />
+            </div>
+            <div>
+              <label for="gender" class="bmiLabel">Gender:</label>
+              <select id="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
 
-        <div>
-          <label for="activity" class="bmiLabel">Activity Level:</label>
-          <select id="activity">
-            <option value="sedentary">Sedentary (little or no exercise)</option>
-            <option value="lightly-active">
-              Lightly Active (light exercise or sports 1-3 days a week)
-            </option>
-            <option value="moderately-active">
-              Moderately Active (moderate exercise or sports 3-5 days a week)
-            </option>
-            <option value="very-active">
-              Very Active (hard exercise or sports 6-7 days a week)
-            </option>
-            <option value="super-active">
-              Super Active (very hard exercise or sports, physical job or
-              training twice a day)
-            </option>
-          </select>
+            <div>
+              <label for="activity" class="bmiLabel">Activity Level:</label>
+              <select id="activity">
+                <option value="sedentary">
+                  Sedentary (little or no exercise)
+                </option>
+                <option value="lightly-active">
+                  Lightly Active (light exercise or sports 1-3 days a week)
+                </option>
+                <option value="moderately-active">
+                  Moderately Active (moderate exercise or sports 3-5 days a
+                  week)
+                </option>
+                <option value="very-active">
+                  Very Active (hard exercise or sports 6-7 days a week)
+                </option>
+                <option value="super-active">
+                  Super Active (very hard exercise or sports, physical job or
+                  training twice a day)
+                </option>
+              </select>
+            </div>
+            <button id="calculate">Calculate BMI</button>
+            <div id="result"></div>
+          </div>
+          <div id="recipe"></div>
         </div>
-        <button id="calculate">Calculate BMI</button>
-        <div id="result"></div>
       </div>
       <div class="row">
         <div class="column">
@@ -103,6 +123,7 @@
         </div>
       </div>
     </main>
+
     <footer>
       Copyright &copy; 2021 Fitness Edge
       <br />
