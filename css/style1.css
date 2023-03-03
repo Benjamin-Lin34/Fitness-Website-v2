@@ -524,6 +524,12 @@ label, #nav{
     flex-basis: 50%;
     padding: 1em;
     text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  #left-side img {
+    max-width: 30%;
   }
   #right-side {
     flex-basis: 50%;
