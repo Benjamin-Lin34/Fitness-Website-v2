@@ -40,28 +40,40 @@
     <main>
       <div id="bmicontainer">
         <div id="left-side">
-          <p id="recipeTitle"></p>
-          <div>
+          <div class="image-container">
+            <h2 id="firstDish"></h2>
             <img
               src="./images/bmidefault.jpg"
               class="bmiimg"
-              id="recipeImg"
+              id="firstDishImg"
               alt="Your Image"
             />
-            <img
-              src="./images/bmidefault.jpg"
-              class="bmiimg"
-              id="recipeImg"
-              alt="Your Image"
-            />
-            <img
-              src="./images/bmidefault.jpg"
-              class="bmiimg"
-              id="recipeImg"
-              alt="Your Image"
-            />
+            <p id="firstDishDesc"></p>
+            <div id="firstDishIngr">
+            </div>
           </div>
-          <p id="recipeDetail"></p>
+          <div class="image-container">
+            <h2 id="SecondDish"></h2>
+            <img
+              src="./images/bmidefault.jpg"
+              class="bmiimg"
+              id="SecondDishImg"
+              alt="Your Image"
+            />
+            <p id="SecondDishDesc"></p>
+            <p id="SecondDishIngr"></p>
+          </div>
+          <div class="image-container">
+            <h2 id="ThirdDish"></h2>
+            <img
+              src="./images/bmidefault.jpg"
+              class="bmiimg"
+              id="ThirdDishImg"
+              alt="Your Image"
+            />
+            <p id="ThirdDishDesc"></p>
+            <p id="ThirdDishIngr"></p>
+          </div>
         </div>
         <div id="right-side">
           <div class="BMI">
@@ -82,9 +94,10 @@
               <select id="gender">
                 <option value="male">Male</option>
                 <option value="female">Female</option>
+                <option value="female">Other</option>
               </select>
             </div>
-
+  
             <div>
               <label for="activity" class="bmiLabel">Activity Level:</label>
               <select id="activity">
@@ -105,6 +118,11 @@
                   Super Active (very hard exercise or sports, physical job or
                   training twice a day)
                 </option>
+              </select>
+              <select id="meal">
+                <option value="breakfast">breakfast</option>
+                <option value="lunch">lunch</option>
+                <option value="dinner">dinner</option>
               </select>
             </div>
             <button id="calculate">Calculate BMI</button>

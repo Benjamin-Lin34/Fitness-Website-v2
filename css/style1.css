@@ -529,7 +529,7 @@ label, #nav{
     align-items: center;
   }
   #left-side img {
-    max-width: 30%;
+    max-width: 120%;
   }
   #right-side {
     flex-basis: 50%;
@@ -545,3 +545,30 @@ label, #nav{
   .bmiInput{
     margin-right: 100px;
   }
+
+
+  .image-container {
+    display: inline-block;
+    text-align: center;
+    margin: 20px;
+    width: 200px;
+  }
+  
+  .image-container img {
+    max-width: 100%;
+    border: 0.25rem solid blanchedalmond;
+    border-radius: 0.2rem;
+  }
+  
+  .image-container h2 {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .image-container p {
+    font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+ 
