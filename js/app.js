@@ -50,7 +50,7 @@ function calculateBMI() {
   let third;
   let random1 = ["bread", "side dish"];
   let random2 = ["beverage", "dessert"];
-  switch(meal){
+  switch (meal) {
     case "breakfast":
       first = "main course";
       let num = Math.round(Math.random());
@@ -75,6 +75,7 @@ function calculateBMI() {
     <p>Your BMR is ${bmr.toFixed(2)} calories per day.</p>
     <p>Your TDEE is ${tdee.toFixed(2)} calories per day.</p>
   `;
+
   // make an AJAX request to a recipe API
   let breakfast_per = Math.random() * (0.3 - 0.2) + 0.2;
   let breakfast_tdee = breakfast_per * tdee;
@@ -95,20 +96,37 @@ function calculateBMI() {
       const recipeTitle = document.getElementById("firstDish");
       const recipeDetail = document.getElementById("firstDishDesc");
       const recipeIngr = document.getElementById("firstDishIngr");
-
-      recipeTitle.innerHTML = `${recipe.title}`;
+      const sliderValue = slider.value;
+      document.getElementById("value").innerHTML = sliderValue;
+      recipeTitle.innerHTML = `<h3>${first}</h3><p>${recipe.title}</p>`;
       recipeImg.src = recipe.image;
       recipeDetail.innerHTML = `${recipe.nutrition.nutrients[0].name}: ${recipe.nutrition.nutrients[0].amount} ${recipe.nutrition.nutrients[0].unit}`;
-      recipeIngr.innerHTML = `<button id="Indri">summary</button>`;
-      const ingridient = document.getElementById("Indri");
+      recipeIngr.innerHTML = `<button id="Indri1">summary</button>`;
+      const ingridient = document.getElementById("Indri1");
       ingridient.addEventListener("click", () => {
         recipeIngr.innerHTML = `<p>${recipe.summary}</p>`;
       });
+
+      const modal = document.getElementById("recipe-modal");
+
+      recipeImg.onclick = function () {
+        recipeImg.style.display = "none";
+        modal.style.display = "inline-block";
+        modal.innerHTML = `<h2>Recipe Title</h2> <p>Recipe instructions here...</p>`;
+      };
+
+      document.onclick = function (event) {
+        if (event.target == modal) {
+          recipeImg.style.display = "block";
+          modal.style.display = "none";
+          modal.innerHTML = ``;
+        }
+      };
     }
   };
   xhr.send();
   // Lunch
-  const url2 = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&number=2&sort=random&type=${second}`;
+  const url2 = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&number=2&sort=random&type=${second}&addRecipeInformation=true`;
 
   const xhr2 = new XMLHttpRequest();
   xhr2.open("GET", url2, true);
@@ -121,14 +139,19 @@ function calculateBMI() {
       const recipeDetail = document.getElementById("SecondDishDesc");
       const recipeIngr = document.getElementById("SecondDishIngr");
 
-      recipeTitle.innerHTML = `${recipe.title}`;
+      recipeTitle.innerHTML = `<h3>${second}</h3><p>${recipe.title}</p>`;
       recipeImg.src = recipe.image;
       recipeDetail.innerHTML = `${recipe.nutrition.nutrients[0].name}: ${recipe.nutrition.nutrients[0].amount} ${recipe.nutrition.nutrients[0].unit}`;
+      recipeIngr.innerHTML = `<button id="Indri2">summary</button>`;
+      const ingridient = document.getElementById("Indri2");
+      ingridient.addEventListener("click", () => {
+        recipeIngr.innerHTML = `<p>${recipe.summary}</p>`;
+      });
     }
   };
   xhr2.send();
   // Dinner
-  const url3 = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&number=2&sort=random&type=${third}`;
+  const url3 = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&number=2&sort=random&type=${third}&addRecipeInformation=true`;
 
   const xhr3 = new XMLHttpRequest();
   xhr3.open("GET", url3, true);
@@ -140,11 +163,15 @@ function calculateBMI() {
       const recipeTitle = document.getElementById("ThirdDish");
       const recipeDetail = document.getElementById("ThirdDishDesc");
       const recipeIngr = document.getElementById("ThirdDishIngr");
- 
-      recipeTitle.innerHTML = `${recipe.title}`;
+
+      recipeTitle.innerHTML = `<h3>${third}</h3><p>${recipe.title}</p>`;
       recipeImg.src = recipe.image;
       recipeDetail.innerHTML = `${recipe.nutrition.nutrients[0].name}: ${recipe.nutrition.nutrients[0].amount} ${recipe.nutrition.nutrients[0].unit}`;
-
+      recipeIngr.innerHTML = `<button id="Indri3">summary</button>`;
+      const ingridient = document.getElementById("Indri3");
+      ingridient.addEventListener("click", () => {
+        recipeIngr.innerHTML = `<p>${recipe.summary}</p>`;
+      });
     }
   };
   xhr3.send();

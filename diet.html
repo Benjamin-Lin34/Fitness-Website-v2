@@ -48,9 +48,9 @@
               id="firstDishImg"
               alt="Your Image"
             />
+            <div id="recipe-modal" class="modal"></div>
             <p id="firstDishDesc"></p>
-            <div id="firstDishIngr">
-            </div>
+            <div id="firstDishIngr"></div>
           </div>
           <div class="image-container">
             <h2 id="SecondDish"></h2>
@@ -61,7 +61,7 @@
               alt="Your Image"
             />
             <p id="SecondDishDesc"></p>
-            <p id="SecondDishIngr"></p>
+            <div id="SecondDishIngr"></div>
           </div>
           <div class="image-container">
             <h2 id="ThirdDish"></h2>
@@ -72,7 +72,7 @@
               alt="Your Image"
             />
             <p id="ThirdDishDesc"></p>
-            <p id="ThirdDishIngr"></p>
+            <div id="ThirdDishIngr"></div>
           </div>
         </div>
         <div id="right-side">
@@ -97,7 +97,6 @@
                 <option value="female">Other</option>
               </select>
             </div>
-  
             <div>
               <label for="activity" class="bmiLabel">Activity Level:</label>
               <select id="activity">
@@ -119,12 +118,22 @@
                   training twice a day)
                 </option>
               </select>
+
+              <label for="meal" class="bmiLabel" style="margin-top: 20px"
+                >Meal</label
+              >
               <select id="meal">
                 <option value="breakfast">breakfast</option>
                 <option value="lunch">lunch</option>
                 <option value="dinner">dinner</option>
               </select>
             </div>
+            <div>
+              <label for="slider" class="bmiLabel">Select a value:</label>
+              <input type="range" id="slider" name="slider" min="0" max="100" />
+              <p>Current value: <span id="value">50</span></p>
+            </div>
+
             <button id="calculate">Calculate BMI</button>
             <div id="result"></div>
           </div>
