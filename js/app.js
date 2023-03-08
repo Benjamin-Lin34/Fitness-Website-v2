@@ -84,7 +84,7 @@ function calculateBMI() {
   let dinner_per = (1 - breakfast_per) / 2;
   let dinner_tdee = dinner_per * tdee;
   const xhr = new XMLHttpRequest();
-  const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&number=2&sort=random&type=${first}&addRecipeInformation=true`;
+  const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&number=2&sort=random&type=${first}&addRecipeInformation=true&addRecipeNutrition=true`;
 
   // Breakfast
   xhr.open("GET", url, true);
@@ -107,21 +107,36 @@ function calculateBMI() {
         recipeIngr.innerHTML = `<p>${recipe.summary}</p>`;
       });
 
-      const modal = document.getElementById("recipe-modal");
+      const modal = document.getElementById("recipe-modal1");
 
       recipeImg.onclick = function () {
         recipeImg.style.display = "none";
         modal.style.display = "inline-block";
-        modal.innerHTML = `<h2>Recipe Title</h2> <p>Recipe instructions here...</p>`;
+        let nutri = "";
+
+        recipe.nutrition.nutrients.forEach(function (nutrient) {
+          nutri += `<p>[H] ${nutrient.name}: ${nutrient.amount} ${nutrient.kcal} percent of daily needs: %${nutrient.percentOfDailyNeeds}</p>`;
+        });
+        modal.innerHTML = nutri;
       };
 
       document.onclick = function (event) {
-        if (event.target == modal) {
+        if (modal.contains(event.target)) {
+          // do nothing if the target element is inside the modal box
+          return;
+        } else {
           recipeImg.style.display = "block";
           modal.style.display = "none";
           modal.innerHTML = ``;
         }
       };
+      // document.onclick = function (event) {
+      //   if (event.target == modal) {
+      //     recipeImg.style.display = "block";
+      //     modal.style.display = "none";
+      //     modal.innerHTML = ``;
+      //   }
+      // };
     }
   };
   xhr.send();
@@ -147,6 +162,22 @@ function calculateBMI() {
       ingridient.addEventListener("click", () => {
         recipeIngr.innerHTML = `<p>${recipe.summary}</p>`;
       });
+
+      const modal2 = document.getElementById("recipe-modal2");
+
+      recipeImg.onclick = function () {
+        recipeImg.style.display = "none";
+        modal2.style.display = "inline-block";
+        modal2.innerHTML = `<h2>Recipe Title</h2> <p>Recipe instructions here...</p>`;
+      };
+
+      document.onclick = function (event) {
+        if (event.target == modal2) {
+          recipeImg.style.display = "block";
+          modal2.style.display = "none";
+          modal2.innerHTML = ``;
+        }
+      };
     }
   };
   xhr2.send();
@@ -172,6 +203,21 @@ function calculateBMI() {
       ingridient.addEventListener("click", () => {
         recipeIngr.innerHTML = `<p>${recipe.summary}</p>`;
       });
+      const modal3 = document.getElementById("recipe-modal3");
+
+      recipeImg.onclick = function () {
+        recipeImg.style.display = "none";
+        modal3.style.display = "inline-block";
+        modal3.innerHTML = `<h2>Recipe Title</h2> <p>Recipe instructions here...</p>`;
+      };
+
+      document.onclick = function (event) {
+        if (event.target == modal3) {
+          recipeImg.style.display = "block";
+          modal3.style.display = "none";
+          modal3.innerHTML = ``;
+        }
+      };
     }
   };
   xhr3.send();
