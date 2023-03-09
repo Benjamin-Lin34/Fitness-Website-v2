@@ -511,7 +511,7 @@ label,
   border: 1px solid #ccc;
 }
 
-.BMI button {
+.bmibutton {
   margin-top: 40px;
   padding: 3px 8px;
   border-radius: 5px;
@@ -546,9 +546,9 @@ label,
   box-shadow: 10px 5px 5px black;
 }
 
-.bmiInput {
+/* .bmiInput {
   margin-right: 100px;
-}
+} */
 
 .image-container {
   display: inline-block;
@@ -604,4 +604,28 @@ label,
   color: white;
   font-size: 14px;
   height: 40px;
+}
+
+.message {
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.5;
+  color: #333;
+  background-color: #f7f7f7;
+  border: 2px solid #ccc;
+  padding: 20px;
+  margin: 10px;
+}
+
+.message article {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.message section {
+  font-weight: normal;
+  font-style: italic;
+  color: #666;
 }

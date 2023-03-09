@@ -38,6 +38,8 @@
     </div>
 
     <main>
+
+      <h2 style="text-align: center;">Design you own menu</h2>
       <div id="bmicontainer">
         <div id="left-side">
           <div class="image-container">
@@ -89,18 +91,17 @@
             </div>
             <div>
               <label for="age" class="bmiLabel">Age:</label>
-              <input type="number" id="age" class=".bmiInput" />
+              <input type="number" id="age" class="bmiInput" />
             </div>
+            
             <div>
               <label for="gender" class="bmiLabel">Gender:</label>
-              <select id="gender">
+              <select id="gender" >
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="female">Other</option>
               </select>
-            </div>
-            <div>
-              <label for="activity" class="bmiLabel">Activity Level:</label>
+              <label for="activity" class="bmiLabel" style="margin-top: 20px">Activity Level:</label>
               <select id="activity">
                 <option value="sedentary">
                   Sedentary (little or no exercise)
@@ -131,14 +132,21 @@
               </select>
             </div>
             <div>
-              <label for="slider" class="bmiLabel">Select a value:</label>
-              <input type="range" id="slider" name="slider" min="0" max="100" />
-              <p>Current value: <span id="value">50</span></p>
+              <label for="carbs" class="bmiLabel">Max Carbs: <span id="carbsValue">50</span></p></label>
+              <input type="range" id="carbs" name="carbs" min="0" max="100" />
             </div>
-
-            <button id="calculate">Calculate BMI</button>
-            <div id="result"></div>
+            <div>
+              <label for="protein" class="bmiLabel">Max Protein: <span id="proteinValue">50</span></p></label>
+              <input type="range" id="protein" name="protein" min="0" max="100" />
+            </div>
+            <div>
+              <label for="fat" class="bmiLabel">Max Fat: <span id="fatValue">50</span></p></label>
+              <input type="range" id="fat" name="fat" min="0" max="100" />
+            </div>
+            
           </div>
+          <button id="calculate" class="bmibutton">Calculate BMI</button>
+            <div id="result"></div>
           <div id="recipe"></div>
         </div>
       </div>

@@ -71,9 +71,13 @@ function calculateBMI() {
   // display the result
   const resultDiv = document.getElementById("result");
   resultDiv.innerHTML = `
+    <div class="message">
+    <article>
     <p>Your BMI is ${bmi.toFixed(2)}</p>
     <p>Your BMR is ${bmr.toFixed(2)} calories per day.</p>
     <p>Your TDEE is ${tdee.toFixed(2)} calories per day.</p>
+    </article>
+    </div>
   `;
 
   // make an AJAX request to a recipe API
@@ -96,26 +100,26 @@ function calculateBMI() {
       const recipeTitle = document.getElementById("firstDish");
       const recipeDetail = document.getElementById("firstDishDesc");
       const recipeIngr = document.getElementById("firstDishIngr");
-      const sliderValue = slider.value;
-      document.getElementById("value").innerHTML = sliderValue;
+      // const sliderValue = slider.value;
+      // document.getElementById("value").innerHTML = sliderValue;
       recipeTitle.innerHTML = `<h3>${first}</h3><p>${recipe.title}</p>`;
       recipeImg.src = recipe.image;
       recipeDetail.innerHTML = `${recipe.nutrition.nutrients[0].name}: ${recipe.nutrition.nutrients[0].amount} ${recipe.nutrition.nutrients[0].unit}`;
-      recipeIngr.innerHTML = `<button id="Indri1" class="readmore">show more</button><div id="recipe-summary1">${recipe.summary.substring(
+      recipeIngr.innerHTML = `<button id="Indri1" class="readmore">show more</button><div id="recipe-summary1" class="message"><article>${recipe.summary.substring(
         0,
         100
-      )}...</div>`;
+      )}...</article></div>`;
       const ingridient = document.getElementById("Indri1");
       let showIngredients = false;
       ingridient.addEventListener("click", () => {
         showIngredients = !showIngredients;
         if (showIngredients) {
           const summaryDiv = document.getElementById("recipe-summary1");
-          summaryDiv.innerHTML = recipe.summary;
+          summaryDiv.innerHTML = `<article>${recipe.summary}</article>`;
           ingridient.innerText = "show less";
         } else {
           const summaryDiv = document.getElementById("recipe-summary1");
-          summaryDiv.innerHTML = recipe.summary.substring(0, 100) + "...";
+          summaryDiv.innerHTML = `<article>${recipe.summary.substring(0, 100)}...<article>`;
           ingridient.innerText = "show more";
         }
       });
@@ -128,7 +132,7 @@ function calculateBMI() {
         let nutri = "";
 
         recipe.nutrition.nutrients.forEach(function (nutrient) {
-          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.kcal} percent of daily needs: %${nutrient.percentOfDailyNeeds}</p>`;
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: %${nutrient.percentOfDailyNeeds}</p>`;
         });
         modal.innerHTML = nutri;
       };
@@ -275,12 +279,28 @@ function calculateBMI() {
   xhr3.send();
 }
 
-const slider = document.getElementById("slider");
-const value = document.getElementById("value");
-value.innerHTML = slider.value;
+const carbs = document.getElementById("carbs");
+const carbsValue = document.getElementById("carbsValue");
+carbsValue.innerHTML = carbs.value;
 
-slider.addEventListener("input", function() {
-  value.innerHTML = this.value;
+carbs.addEventListener("input", function() {
+  carbsValue.innerHTML = this.value;
+})
+
+const protein = document.getElementById("protein");
+const proteinValue = document.getElementById("proteinValue");
+proteinValue.innerHTML = protein.value;
+
+protein.addEventListener("input", function() {
+  proteinValue.innerHTML = this.value;
+})
+
+const fat = document.getElementById("fat");
+const fatValue = document.getElementById("fatValue");
+fatValue.innerHTML = fat.value;
+
+fat.addEventListener("input", function() {
+  fatValue.innerHTML = this.value;
 })
 // attach event listener to the button
 const calculateButton = document.getElementById("calculate");
