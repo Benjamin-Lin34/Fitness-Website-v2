@@ -101,47 +101,54 @@ function calculateBMI() {
       recipeTitle.innerHTML = `<h3>${first}</h3><p>${recipe.title}</p>`;
       recipeImg.src = recipe.image;
       recipeDetail.innerHTML = `${recipe.nutrition.nutrients[0].name}: ${recipe.nutrition.nutrients[0].amount} ${recipe.nutrition.nutrients[0].unit}`;
-      recipeIngr.innerHTML = `<button id="Indri1">summary</button>`;
+      recipeIngr.innerHTML = `<button id="Indri1" class="readmore">show more</button><div id="recipe-summary1">${recipe.summary.substring(
+        0,
+        100
+      )}...</div>`;
       const ingridient = document.getElementById("Indri1");
+      let showIngredients = false;
       ingridient.addEventListener("click", () => {
-        recipeIngr.innerHTML = `<p>${recipe.summary}</p>`;
+        showIngredients = !showIngredients;
+        if (showIngredients) {
+          const summaryDiv = document.getElementById("recipe-summary1");
+          summaryDiv.innerHTML = recipe.summary;
+          ingridient.innerText = "show less";
+        } else {
+          const summaryDiv = document.getElementById("recipe-summary1");
+          summaryDiv.innerHTML = recipe.summary.substring(0, 100) + "...";
+          ingridient.innerText = "show more";
+        }
       });
 
-      const modal = document.getElementById("recipe-modal1");
+      let modal = document.getElementById("recipe-modal1");
 
       recipeImg.onclick = function () {
-        recipeImg.style.display = "none";
+        // recipeImg.style.display = "none";
         modal.style.display = "inline-block";
         let nutri = "";
 
         recipe.nutrition.nutrients.forEach(function (nutrient) {
-          nutri += `<p>[H] ${nutrient.name}: ${nutrient.amount} ${nutrient.kcal} percent of daily needs: %${nutrient.percentOfDailyNeeds}</p>`;
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.kcal} percent of daily needs: %${nutrient.percentOfDailyNeeds}</p>`;
         });
         modal.innerHTML = nutri;
       };
 
       document.onclick = function (event) {
-        if (modal.contains(event.target)) {
-          // do nothing if the target element is inside the modal box
-          return;
-        } else {
-          recipeImg.style.display = "block";
+        if (
+          event.target == modal ||
+          event.target == document.getElementsByClassName("nutrients")
+        ) {
+          console.log(event.target);
+          // recipeImg.style.display = "block";
           modal.style.display = "none";
           modal.innerHTML = ``;
         }
       };
-      // document.onclick = function (event) {
-      //   if (event.target == modal) {
-      //     recipeImg.style.display = "block";
-      //     modal.style.display = "none";
-      //     modal.innerHTML = ``;
-      //   }
-      // };
     }
   };
   xhr.send();
   // Lunch
-  const url2 = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&number=2&sort=random&type=${second}&addRecipeInformation=true`;
+  const url2 = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&number=2&sort=random&type=${second}&addRecipeInformation=true&addRecipeNutrition=true`;
 
   const xhr2 = new XMLHttpRequest();
   xhr2.open("GET", url2, true);
@@ -157,32 +164,54 @@ function calculateBMI() {
       recipeTitle.innerHTML = `<h3>${second}</h3><p>${recipe.title}</p>`;
       recipeImg.src = recipe.image;
       recipeDetail.innerHTML = `${recipe.nutrition.nutrients[0].name}: ${recipe.nutrition.nutrients[0].amount} ${recipe.nutrition.nutrients[0].unit}`;
-      recipeIngr.innerHTML = `<button id="Indri2">summary</button>`;
+      recipeIngr.innerHTML = `<button id="Indri2" class="readmore">show more</button><div id="recipe-summary2">${recipe.summary.substring(
+        0,
+        100
+      )}...</div>`;
       const ingridient = document.getElementById("Indri2");
+      let showIngredients = false;
       ingridient.addEventListener("click", () => {
-        recipeIngr.innerHTML = `<p>${recipe.summary}</p>`;
+        showIngredients = !showIngredients;
+        if (showIngredients) {
+          const summaryDiv = document.getElementById("recipe-summary2");
+          summaryDiv.innerHTML = recipe.summary;
+          ingridient.innerText = "show less";
+        } else {
+          const summaryDiv = document.getElementById("recipe-summary2");
+          summaryDiv.innerHTML = recipe.summary.substring(0, 100) + "...";
+          ingridient.innerText = "show more";
+        }
       });
 
-      const modal2 = document.getElementById("recipe-modal2");
+      let modal = document.getElementById("recipe-modal1");
 
       recipeImg.onclick = function () {
-        recipeImg.style.display = "none";
-        modal2.style.display = "inline-block";
-        modal2.innerHTML = `<h2>Recipe Title</h2> <p>Recipe instructions here...</p>`;
+        // recipeImg.style.display = "none";
+        modal.style.display = "inline-block";
+        let nutri = "";
+
+        recipe.nutrition.nutrients.forEach(function (nutrient) {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.kcal} percent of daily needs: %${nutrient.percentOfDailyNeeds}</p>`;
+        });
+        modal.innerHTML = nutri;
       };
 
       document.onclick = function (event) {
-        if (event.target == modal2) {
-          recipeImg.style.display = "block";
-          modal2.style.display = "none";
-          modal2.innerHTML = ``;
+        if (
+          event.target == modal ||
+          event.target == document.getElementsByClassName("nutrients")
+        ) {
+          console.log(event.target);
+          // recipeImg.style.display = "block";
+          modal.style.display = "none";
+          modal.innerHTML = ``;
         }
       };
     }
   };
   xhr2.send();
   // Dinner
-  const url3 = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&number=2&sort=random&type=${third}&addRecipeInformation=true`;
+  const url3 = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&number=2&sort=random&type=${third}&addRecipeInformation=true&addRecipeNutrition=true`;
 
   const xhr3 = new XMLHttpRequest();
   xhr3.open("GET", url3, true);
@@ -198,24 +227,47 @@ function calculateBMI() {
       recipeTitle.innerHTML = `<h3>${third}</h3><p>${recipe.title}</p>`;
       recipeImg.src = recipe.image;
       recipeDetail.innerHTML = `${recipe.nutrition.nutrients[0].name}: ${recipe.nutrition.nutrients[0].amount} ${recipe.nutrition.nutrients[0].unit}`;
-      recipeIngr.innerHTML = `<button id="Indri3">summary</button>`;
+      recipeIngr.innerHTML = `<button id="Indri3" class="readmore">show more</button><div id="recipe-summary3">${recipe.summary.substring(
+        0,
+        100
+      )}...</div>`;
       const ingridient = document.getElementById("Indri3");
+      let showIngredients = false;
       ingridient.addEventListener("click", () => {
-        recipeIngr.innerHTML = `<p>${recipe.summary}</p>`;
+        showIngredients = !showIngredients;
+        if (showIngredients) {
+          const summaryDiv = document.getElementById("recipe-summary3");
+          summaryDiv.innerHTML = recipe.summary;
+          ingridient.innerText = "show less";
+        } else {
+          const summaryDiv = document.getElementById("recipe-summary3");
+          summaryDiv.innerHTML = recipe.summary.substring(0, 100) + "...";
+          ingridient.innerText = "show more";
+        }
       });
-      const modal3 = document.getElementById("recipe-modal3");
+
+      let modal = document.getElementById("recipe-modal1");
 
       recipeImg.onclick = function () {
-        recipeImg.style.display = "none";
-        modal3.style.display = "inline-block";
-        modal3.innerHTML = `<h2>Recipe Title</h2> <p>Recipe instructions here...</p>`;
+        // recipeImg.style.display = "none";
+        modal.style.display = "inline-block";
+        let nutri = "";
+
+        recipe.nutrition.nutrients.forEach(function (nutrient) {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.kcal} percent of daily needs: %${nutrient.percentOfDailyNeeds}</p>`;
+        });
+        modal.innerHTML = nutri;
       };
 
       document.onclick = function (event) {
-        if (event.target == modal3) {
-          recipeImg.style.display = "block";
-          modal3.style.display = "none";
-          modal3.innerHTML = ``;
+        if (
+          event.target == modal ||
+          event.target == document.getElementsByClassName("nutrients")
+        ) {
+          console.log(event.target);
+          // recipeImg.style.display = "block";
+          modal.style.display = "none";
+          modal.innerHTML = ``;
         }
       };
     }
@@ -223,6 +275,13 @@ function calculateBMI() {
   xhr3.send();
 }
 
+const slider = document.getElementById("slider");
+const value = document.getElementById("value");
+value.innerHTML = slider.value;
+
+slider.addEventListener("input", function() {
+  value.innerHTML = this.value;
+})
 // attach event listener to the button
 const calculateButton = document.getElementById("calculate");
 calculateButton.addEventListener("click", calculateBMI);
