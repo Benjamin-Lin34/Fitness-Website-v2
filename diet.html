@@ -39,7 +39,8 @@
 
     <main>
 
-      <h2 style="text-align: center;">Design you own menu</h2>
+      <h2 style="text-align: center; margin-top: 20px;">Need meal ideas? Let our meal generator do the work for you</h2>
+      <h2 style="text-align: center; margin-top: 20px; margin-bottom: 40px;">Get personalized meal recommendations with our meal generator</h2>
       <div id="bmicontainer">
         <div id="left-side">
           <div class="image-container">
@@ -130,7 +131,20 @@
                 <option value="lunch">lunch</option>
                 <option value="dinner">dinner</option>
               </select>
+              <label class="bmiLabel" style="margin-top: 20px;">Intolerences</label>
+              <label class="bmiLabel">
+                Dairy<input type="checkbox" id="Dairy" value="yes" style="display: inline-block; width: 50px;">
+                Peanut<input type="checkbox" id="Peanut" value="yes" style="display: inline-block;  width: 50px;">
+                Seafood<input type="checkbox" id="Seafood" value="yes" style="display: inline-block;  width: 50px;">
+              </label>
+              <label class="bmiLabel" style="margin-top: 20px;">Diet</label>
+              <label class="bmiLabel">
+                Gluten Free<input type="checkbox" id="Gluten" value="yes" style="display: inline-block; width: 50px;">
+                Vegetarian<input type="checkbox" id="Vegetarian" value="yes" style="display: inline-block;  width: 50px;">
+                Vegan<input type="checkbox" id="Vegan" value="yes" style="display: inline-block;  width: 50px;">
+              </label>
             </div>
+              
             <div>
               <label for="carbs" class="bmiLabel">Max Carbs: <span id="carbsValue">50</span></p></label>
               <input type="range" id="carbs" name="carbs" min="0" max="100" />
@@ -145,7 +159,7 @@
             </div>
             
           </div>
-          <button id="calculate" class="bmibutton">Calculate BMI</button>
+          <button id="calculate" class="bmibutton">Get Recommendations</button>
             <div id="result"></div>
           <div id="recipe"></div>
         </div>

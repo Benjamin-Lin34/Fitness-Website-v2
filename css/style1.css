@@ -518,8 +518,9 @@ label,
   border: none;
   background-color: #4caf50;
   color: white;
-  font-size: 14px;
-  height: 40px;
+  font-size: 20px;
+  height: 60px;
+  width: 200px;
 }
 
 #bmicontainer {

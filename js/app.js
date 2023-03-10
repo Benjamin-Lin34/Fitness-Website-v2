@@ -6,6 +6,56 @@ function calculateBMI() {
   const gender = document.getElementById("gender").value;
   const activity = document.getElementById("activity").value;
 
+  let intolerances = ``;
+  let check = 0;
+  if (document.getElementById("Dairy").checked) {
+    intolerances += `intolerances=Dairy`;
+    check = 1;
+  }
+  if (document.getElementById("Peanut").checked) {
+    if (check === 1) {
+      intolerances += `&`;
+    }
+    intolerances += `intolerances=Peanut`;
+    check = 2;
+  }
+  if (document.getElementById("Seafood").checked) {
+    if (check === 1 || check === 2) {
+      intolerances += `&`;
+    }
+    intolerances += `intolerances=Seafood`;
+    check = 3;
+  }
+  if (check) {
+    intolerances = `&` + intolerances;
+  }
+
+
+  let diet = ``;
+  let check2 = 0;
+  if (document.getElementById("Gluten").checked) {
+    diet += `diet=Gluten`;
+    check2 = 1;
+  }
+  if (document.getElementById("Vegetarian").checked) {
+    if (check2 === 1) {
+      diet += `&`;
+    }
+    diet += `diet=Vegetarian`;
+    check2 = 2;
+  }
+  if (document.getElementById("Vegan").checked) {
+    if (check2 === 1 || check2 === 2) {
+      diet += `&`;
+    }
+    diet += `diet=Vegan`;
+    check2 = 3;
+  }
+  if (check2) {
+    diet = `&` + diet;
+  }
+  
+
   // validate input values
   if (weight <= 0 || height <= 0 || age <= 0) {
     alert("Invalid input values. Please enter positive numbers.");
@@ -83,13 +133,15 @@ function calculateBMI() {
   // make an AJAX request to a recipe API
   let breakfast_per = Math.random() * (0.3 - 0.2) + 0.2;
   let breakfast_tdee = breakfast_per * tdee;
-  let lunch_per = (1 - breakfast_per) / 2;
-  let lunch_tdee = lunch_per * tdee;
-  let dinner_per = (1 - breakfast_per) / 2;
-  let dinner_tdee = dinner_per * tdee;
+  const carbs = document.getElementById("carbs").value;
+  const fat = document.getElementById("fat").value;
+  const protein = document.getElementById("carbs").value;
   const xhr = new XMLHttpRequest();
-  const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&number=2&sort=random&type=${first}&addRecipeInformation=true&addRecipeNutrition=true`;
+  const url =
+    `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&number=2&sort=random&type=${first}&addRecipeInformation=true&addRecipeNutrition=true&maxCarbs=${carbs}&maxProtein=${protein}&maxFat=${fat}` +
+    intolerances + diet;
 
+  console.log(url);
   // Breakfast
   xhr.open("GET", url, true);
   xhr.onreadystatechange = function () {
@@ -105,36 +157,43 @@ function calculateBMI() {
       recipeTitle.innerHTML = `<h3>${first}</h3><p>${recipe.title}</p>`;
       recipeImg.src = recipe.image;
       recipeDetail.innerHTML = `${recipe.nutrition.nutrients[0].name}: ${recipe.nutrition.nutrients[0].amount} ${recipe.nutrition.nutrients[0].unit}`;
-      recipeIngr.innerHTML = `<button id="Indri1" class="readmore">show more</button><div id="recipe-summary1" class="message"><article>${recipe.summary.substring(
-        0,
-        100
-      )}...</article></div>`;
+      let modal = document.getElementById("recipe-modal1");
+      let nutri = "";
+      recipe.nutrition.nutrients.forEach(function (nutrient) {
+        if (nutrient.name === "Calories") {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: ${nutrient.percentOfDailyNeeds}%</p>`;
+        } else if (nutrient.name === "Fat") {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: ${nutrient.percentOfDailyNeeds}%</p>`;
+        } else if (nutrient.name === "Carbohydrates") {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: ${nutrient.percentOfDailyNeeds}%</p>`;
+        } else if (nutrient.name === "Protein") {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: ${nutrient.percentOfDailyNeeds}%</p>`;
+        } else if (nutrient.name === "Fiber") {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: ${nutrient.percentOfDailyNeeds}%</p>`;
+        }
+      });
+
+      recipeIngr.innerHTML = `<button id="Indri1" class="readmore">show more</button><div id="recipe-summary1" class="message"></div>`;
       const ingridient = document.getElementById("Indri1");
-      let showIngredients = false;
+      let showIngredients = true;
       ingridient.addEventListener("click", () => {
         showIngredients = !showIngredients;
         if (showIngredients) {
           const summaryDiv = document.getElementById("recipe-summary1");
-          summaryDiv.innerHTML = `<article>${recipe.summary}</article>`;
+          summaryDiv.innerHTML = ``;
           ingridient.innerText = "show less";
         } else {
           const summaryDiv = document.getElementById("recipe-summary1");
-          summaryDiv.innerHTML = `<article>${recipe.summary.substring(0, 100)}...<article>`;
+          summaryDiv.innerHTML = `<article>${nutri}...<article>`;
           ingridient.innerText = "show more";
         }
       });
 
-      let modal = document.getElementById("recipe-modal1");
-
       recipeImg.onclick = function () {
         // recipeImg.style.display = "none";
         modal.style.display = "inline-block";
-        let nutri = "";
 
-        recipe.nutrition.nutrients.forEach(function (nutrient) {
-          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: %${nutrient.percentOfDailyNeeds}</p>`;
-        });
-        modal.innerHTML = nutri;
+        modal.innerHTML = recipe.summary;
       };
 
       document.onclick = function (event) {
@@ -152,7 +211,8 @@ function calculateBMI() {
   };
   xhr.send();
   // Lunch
-  const url2 = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&number=2&sort=random&type=${second}&addRecipeInformation=true&addRecipeNutrition=true`;
+  const url2 = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&number=2&sort=random&type=${second}&addRecipeInformation=true&addRecipeNutrition=true&maxCarbs=${carbs}&maxProtein=${protein}&maxFat=${fat}` +
+  intolerances + diet;;
 
   const xhr2 = new XMLHttpRequest();
   xhr2.open("GET", url2, true);
@@ -168,36 +228,43 @@ function calculateBMI() {
       recipeTitle.innerHTML = `<h3>${second}</h3><p>${recipe.title}</p>`;
       recipeImg.src = recipe.image;
       recipeDetail.innerHTML = `${recipe.nutrition.nutrients[0].name}: ${recipe.nutrition.nutrients[0].amount} ${recipe.nutrition.nutrients[0].unit}`;
-      recipeIngr.innerHTML = `<button id="Indri2" class="readmore">show more</button><div id="recipe-summary2">${recipe.summary.substring(
-        0,
-        100
-      )}...</div>`;
+      let modal = document.getElementById("recipe-modal1");
+      let nutri = "";
+      recipe.nutrition.nutrients.forEach(function (nutrient) {
+        if (nutrient.name === "Calories") {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: ${nutrient.percentOfDailyNeeds}%</p>`;
+        } else if (nutrient.name === "Fat") {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: ${nutrient.percentOfDailyNeeds}%</p>`;
+        } else if (nutrient.name === "Carbohydrates") {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: ${nutrient.percentOfDailyNeeds}%</p>`;
+        } else if (nutrient.name === "Protein") {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: ${nutrient.percentOfDailyNeeds}%</p>`;
+        } else if (nutrient.name === "Fiber") {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: ${nutrient.percentOfDailyNeeds}%</p>`;
+        }
+      });
+
+      recipeIngr.innerHTML = `<button id="Indri2" class="readmore">show more</button><div id="recipe-summary2" class="message"></div>`;
       const ingridient = document.getElementById("Indri2");
-      let showIngredients = false;
+      let showIngredients = true;
       ingridient.addEventListener("click", () => {
         showIngredients = !showIngredients;
         if (showIngredients) {
           const summaryDiv = document.getElementById("recipe-summary2");
-          summaryDiv.innerHTML = recipe.summary;
+          summaryDiv.innerHTML = ``;
           ingridient.innerText = "show less";
         } else {
           const summaryDiv = document.getElementById("recipe-summary2");
-          summaryDiv.innerHTML = recipe.summary.substring(0, 100) + "...";
+          summaryDiv.innerHTML = `<article>${nutri}...<article>`;
           ingridient.innerText = "show more";
         }
       });
 
-      let modal = document.getElementById("recipe-modal1");
-
       recipeImg.onclick = function () {
         // recipeImg.style.display = "none";
         modal.style.display = "inline-block";
-        let nutri = "";
 
-        recipe.nutrition.nutrients.forEach(function (nutrient) {
-          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.kcal} percent of daily needs: %${nutrient.percentOfDailyNeeds}</p>`;
-        });
-        modal.innerHTML = nutri;
+        modal.innerHTML = recipe.summary;
       };
 
       document.onclick = function (event) {
@@ -215,7 +282,8 @@ function calculateBMI() {
   };
   xhr2.send();
   // Dinner
-  const url3 = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&number=2&sort=random&type=${third}&addRecipeInformation=true&addRecipeNutrition=true`;
+  const url3 = `https://api.spoonacular.com/recipes/complexSearch?apiKey=9f22fbec0b9a40e1a933fcf9746735df&maxCalories=${breakfast_tdee}&number=2&sort=random&type=${third}&addRecipeInformation=true&addRecipeNutrition=true&maxCarbs=${carbs}&maxProtein=${protein}&maxFat=${fat}` +
+  intolerances + diet;;
 
   const xhr3 = new XMLHttpRequest();
   xhr3.open("GET", url3, true);
@@ -231,36 +299,42 @@ function calculateBMI() {
       recipeTitle.innerHTML = `<h3>${third}</h3><p>${recipe.title}</p>`;
       recipeImg.src = recipe.image;
       recipeDetail.innerHTML = `${recipe.nutrition.nutrients[0].name}: ${recipe.nutrition.nutrients[0].amount} ${recipe.nutrition.nutrients[0].unit}`;
-      recipeIngr.innerHTML = `<button id="Indri3" class="readmore">show more</button><div id="recipe-summary3">${recipe.summary.substring(
-        0,
-        100
-      )}...</div>`;
+      let modal = document.getElementById("recipe-modal1");
+      let nutri = "";
+      recipe.nutrition.nutrients.forEach(function (nutrient) {
+        if (nutrient.name === "Calories") {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: ${nutrient.percentOfDailyNeeds}%</p>`;
+        } else if (nutrient.name === "Fat") {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: ${nutrient.percentOfDailyNeeds}%</p>`;
+        } else if (nutrient.name === "Carbohydrates") {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: ${nutrient.percentOfDailyNeeds}%</p>`;
+        } else if (nutrient.name === "Protein") {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: ${nutrient.percentOfDailyNeeds}%</p>`;
+        } else if (nutrient.name === "Fiber") {
+          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.unit} percent of daily needs: ${nutrient.percentOfDailyNeeds}%</p>`;
+        }
+      });
+      recipeIngr.innerHTML = `<button id="Indri3" class="readmore">show more</button><div id="recipe-summary3" class="message"></div>`;
       const ingridient = document.getElementById("Indri3");
-      let showIngredients = false;
+      let showIngredients = true;
       ingridient.addEventListener("click", () => {
         showIngredients = !showIngredients;
         if (showIngredients) {
           const summaryDiv = document.getElementById("recipe-summary3");
-          summaryDiv.innerHTML = recipe.summary;
+          summaryDiv.innerHTML = ``;
           ingridient.innerText = "show less";
         } else {
           const summaryDiv = document.getElementById("recipe-summary3");
-          summaryDiv.innerHTML = recipe.summary.substring(0, 100) + "...";
+          summaryDiv.innerHTML = `<article>${nutri}...<article>`;
           ingridient.innerText = "show more";
         }
       });
 
-      let modal = document.getElementById("recipe-modal1");
-
       recipeImg.onclick = function () {
         // recipeImg.style.display = "none";
         modal.style.display = "inline-block";
-        let nutri = "";
 
-        recipe.nutrition.nutrients.forEach(function (nutrient) {
-          nutri += `<p class="nutrients">${nutrient.name}: ${nutrient.amount} ${nutrient.kcal} percent of daily needs: %${nutrient.percentOfDailyNeeds}</p>`;
-        });
-        modal.innerHTML = nutri;
+        modal.innerHTML = recipe.summary;
       };
 
       document.onclick = function (event) {
@@ -283,25 +357,25 @@ const carbs = document.getElementById("carbs");
 const carbsValue = document.getElementById("carbsValue");
 carbsValue.innerHTML = carbs.value;
 
-carbs.addEventListener("input", function() {
+carbs.addEventListener("input", function () {
   carbsValue.innerHTML = this.value;
-})
+});
 
 const protein = document.getElementById("protein");
 const proteinValue = document.getElementById("proteinValue");
 proteinValue.innerHTML = protein.value;
 
-protein.addEventListener("input", function() {
+protein.addEventListener("input", function () {
   proteinValue.innerHTML = this.value;
-})
+});
 
 const fat = document.getElementById("fat");
 const fatValue = document.getElementById("fatValue");
 fatValue.innerHTML = fat.value;
 
-fat.addEventListener("input", function() {
+fat.addEventListener("input", function () {
   fatValue.innerHTML = this.value;
-})
+});
 // attach event listener to the button
 const calculateButton = document.getElementById("calculate");
 calculateButton.addEventListener("click", calculateBMI);
